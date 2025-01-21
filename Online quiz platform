@@ -1,0 +1,96 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Question {
+    private String questionText;
+    private String[] options;
+    private int correctOption;
+
+    public Question(String questionText, String[] options, int correctOption) {
+        this.questionText = questionText;
+        this.options = options;
+        this.correctOption = correctOption;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public String[] getOptions() {
+        return options;
+    }
+
+    public int getCorrectOption() {
+        return correctOption;
+    }
+}
+
+class Quiz {
+    private ArrayList<Question> questions;
+    private int score;
+
+    public Quiz() {
+        questions = new ArrayList<>();
+        score = 0;
+    }
+
+    public void addQuestion(String questionText, String[] options, int correctOption) {
+        questions.add(new Question(questionText, options, correctOption));
+    }
+
+    public void startQuiz() {
+        Scanner scanner = new Scanner(System.in);
+        score = 0;
+
+        System.out.println("=== Welcome to the Quiz ===");
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+
+            System.out.println("\nQuestion " + (i + 1) + ": " + question.getQuestionText());
+            String[] options = question.getOptions();
+            for (int j = 0; j < options.length; j++) {
+                System.out.println((j + 1) + ". " + options[j]);
+            }
+
+            System.out.print("Your answer (1-" + options.length + "): ");
+            int userAnswer = scanner.nextInt();
+
+            if (userAnswer == question.getCorrectOption()) {
+                System.out.println("Correct!");
+                score++;
+            } else {
+                System.out.println("Wrong! The correct answer was: " + options[question.getCorrectOption() - 1]);
+            }
+        }
+
+        System.out.println("\n=== Quiz Completed ===");
+        System.out.println("Your final score is: " + score + "/" + questions.size());
+        scanner.close();
+    }
+}
+
+public class OnlineQuizPlatform {
+    public static void main(String[] args) {
+        Quiz quiz = new Quiz();
+
+        // Adding some sample questions
+        quiz.addQuestion(
+            "What is the capital of France?",
+            new String[]{"Berlin", "Madrid", "Paris", "Lisbon"},
+            3
+        );
+        quiz.addQuestion(
+            "Which planet is known as the Red Planet?",
+            new String[]{"Earth", "Mars", "Jupiter", "Venus"},
+            2
+        );
+        quiz.addQuestion(
+            "What is 5 + 3?",
+            new String[]{"5", "8", "10", "15"},
+            2
+        );
+
+        // Start the quiz
+        quiz.startQuiz();
+    }
+}
