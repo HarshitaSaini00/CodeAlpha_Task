@@ -1,0 +1,54 @@
+import random
+
+def hangman():
+    # List of words for the game
+    word_list = ['python', 'java', 'kotlin', 'javascript', 'programming', 'hangman', 'developer']
+    chosen_word = random.choice(word_list)  # Randomly select a word
+    word_length = len(chosen_word)
+    guessed_word = ['_'] * word_length  # Represent the word with underscores
+    attempts = 6  # Number of attempts
+    guessed_letters = set()  # To track guessed letters
+
+    print("Welcome to Hangman!")
+    print("Try to guess the word, one letter at a time.")
+    
+    while attempts > 0 and '_' in guessed_word:
+        print("\n" + " ".join(guessed_word))
+        print(f"You have {attempts} attempts remaining.")
+        
+        # Get user input
+        guess = input("Guess a letter: ").lower()
+
+        # Check if the input is valid
+        if len(guess) != 1 or not guess.isalpha():
+            print("Please enter a single letter.")
+            continue
+
+        # Check if the letter was already guessed
+        if guess in guessed_letters:
+            print("You've already guessed that letter. Try again.")
+            continue
+
+        guessed_letters.add(guess)  # Add the letter to guessed letters
+
+        if guess in chosen_word:
+            print("Good guess!")
+            # Update the guessed word with the correct letter
+            for index, letter in enumerate(chosen_word):
+                if letter == guess:
+                    guessed_word[index] = guess
+        else:
+            print("Oops! That letter is not in the word.")
+            attempts -= 1
+
+    # Check the outcome
+    if '_' not in guessed_word:
+        print("\nCongratulations! You guessed the word:")
+        print("".join(guessed_word))
+    else:
+        print("\nGame over! The word was:")
+        print(chosen_word)
+
+# Run the game
+if __name__ == "__main__":
+    hangman()
