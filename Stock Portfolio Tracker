@@ -1,0 +1,95 @@
+class Stock:
+    def __init__(self, symbol, name, shares, price):
+        self.symbol = symbol.upper()
+        self.name = name
+        self.shares = shares
+        self.price = price
+
+    def value(self):
+        return self.shares * self.price
+
+    def __str__(self):
+        return f"{self.symbol} ({self.name}): {self.shares} shares @ ${self.price:.2f} each. Total: ${self.value():.2f}"
+
+
+class Portfolio:
+    def __init__(self):
+        self.stocks = []
+
+    def add_stock(self, symbol, name, shares, price):
+        new_stock = Stock(symbol, name, shares, price)
+        self.stocks.append(new_stock)
+        print(f"Added {shares} shares of {name} ({symbol}) to the portfolio.")
+
+    def remove_stock(self, symbol):
+        for stock in self.stocks:
+            if stock.symbol == symbol.upper():
+                self.stocks.remove(stock)
+                print(f"Removed {stock.name} ({stock.symbol}) from the portfolio.")
+                return
+        print("Stock not found in the portfolio.")
+
+    def update_price(self, symbol, new_price):
+        for stock in self.stocks:
+            if stock.symbol == symbol.upper():
+                stock.price = new_price
+                print(f"Updated price for {stock.name} ({stock.symbol}) to ${new_price:.2f}.")
+                return
+        print("Stock not found in the portfolio.")
+
+    def view_portfolio(self):
+        if not self.stocks:
+            print("Your portfolio is empty.")
+            return
+        print("\nPortfolio Summary:")
+        total_value = 0
+        for stock in self.stocks:
+            print(stock)
+            total_value += stock.value()
+        print(f"\nTotal Portfolio Value: ${total_value:.2f}")
+
+
+def main():
+    portfolio = Portfolio()
+    print("Welcome to the Stock Portfolio Tracker!")
+    
+    while True:
+        print("\nOptions:")
+        print("1. Add Stock")
+        print("2. Remove Stock")
+        print("3. Update Stock Price")
+        print("4. View Portfolio")
+        print("5. Exit")
+
+        choice = input("Choose an option (1-5): ")
+        
+        if choice == '1':
+            symbol = input("Enter stock symbol: ")
+            name = input("Enter company name: ")
+            try:
+                shares = int(input("Enter number of shares: "))
+                price = float(input("Enter stock price: "))
+                portfolio.add_stock(symbol, name, shares, price)
+            except ValueError:
+                print("Invalid input. Please enter numeric values for shares and price.")
+        elif choice == '2':
+            symbol = input("Enter stock symbol to remove: ")
+            portfolio.remove_stock(symbol)
+        elif choice == '3':
+            symbol = input("Enter stock symbol to update price: ")
+            try:
+                new_price = float(input("Enter the new stock price: "))
+                portfolio.update_price(symbol, new_price)
+            except ValueError:
+                print("Invalid input. Please enter a valid price.")
+        elif choice == '4':
+            portfolio.view_portfolio()
+        elif choice == '5':
+            print("Exiting Stock Portfolio Tracker. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()
