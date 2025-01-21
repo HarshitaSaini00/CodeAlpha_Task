@@ -1,0 +1,28 @@
+def chatbox():
+    print("Hello! I'm ChatBot. How can I assist you today? (Type 'exit' to quit)")
+    
+    # Predefined responses
+    responses = {
+        "hi": "Hello! How can I help you?",
+        "hello": "Hi there! What can I do for you?",
+        "how are you": "I'm just a program, but I'm functioning as expected! How about you?",
+        "bye": "Goodbye! Have a great day!",
+        "help": "Sure! Ask me anything, and I'll do my best to assist."
+    }
+    
+    while True:
+        # Get user input
+        user_input = input("You: ").lower()
+        
+        if user_input == 'exit':
+            print("ChatBot: Goodbye! It was nice talking to you.")
+            break
+        
+        # Respond based on predefined responses
+        response = responses.get(user_input, "I'm not sure how to respond to that. Can you ask something else?")
+        print(f"ChatBot: {response}")
+
+
+# Run the chatbox
+if __name__ == "__main__":
+    chatbox()
