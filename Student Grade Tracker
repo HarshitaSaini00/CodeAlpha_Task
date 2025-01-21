@@ -1,0 +1,125 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+class Student {
+    private String id;
+    private String name;
+    private HashMap<String, Double> grades;
+
+    public Student(String id, String name) {
+        this.id = id;
+        this.name = name;
+        this.grades = new HashMap<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void addGrade(String subject, double grade) {
+        grades.put(subject, grade);
+    }
+
+    public void displayGrades() {
+        System.out.println("Grades for " + name + " (ID: " + id + "):");
+        if (grades.isEmpty()) {
+            System.out.println("No grades available.");
+        } else {
+            for (String subject : grades.keySet()) {
+                System.out.println(subject + ": " + grades.get(subject));
+            }
+        }
+    }
+}
+
+public class GradeTracker {
+    private ArrayList<Student> students;
+
+    public GradeTracker() {
+        this.students = new ArrayList<>();
+    }
+
+    public void addStudent(String id, String name) {
+        students.add(new Student(id, name));
+    }
+
+    public Student findStudent(String id) {
+        for (Student student : students) {
+            if (student.getId().equals(id)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public void assignGrade(String id, String subject, double grade) {
+        Student student = findStudent(id);
+        if (student != null) {
+            student.addGrade(subject, grade);
+            System.out.println("Grade assigned successfully.");
+        } else {
+            System.out.println("Student not found.");
+        }
+    }
+
+    public void viewStudentGrades(String id) {
+        Student student = findStudent(id);
+        if (student != null) {
+            student.displayGrades();
+        } else {
+            System.out.println("Student not found.");
+        }
+    }
+
+    public static void main(String[] args) {
+        GradeTracker tracker = new GradeTracker();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n=== Student Grade Tracker ===");
+            System.out.println("1. Add Student");
+            System.out.println("2. Assign Grade");
+            System.out.println("3. View Student Grades");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Student ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Enter Student Name: ");
+                    String name = scanner.nextLine();
+                    tracker.addStudent(id, name);
+                    System.out.println("Student added successfully.");
+                    break;
+                case 2:
+                    System.out.print("Enter Student ID: ");
+                    id = scanner.nextLine();
+                    System.out.print("Enter Subject: ");
+                    String subject = scanner.nextLine();
+                    System.out.print("Enter Grade: ");
+                    double grade = scanner.nextDouble();
+                    tracker.assignGrade(id, subject, grade);
+                    break;
+                case 3:
+                    System.out.print("Enter Student ID: ");
+                    id = scanner.nextLine();
+                    tracker.viewStudentGrades(id);
+                    break;
+                case 4:
+                    System.out.println("Exiting program. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
