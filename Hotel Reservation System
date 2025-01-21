@@ -1,0 +1,83 @@
+import java.util.Scanner;
+
+public class HotelReservationSystem {
+    private static final int MAX_ROOMS = 5;
+    private static boolean[] rooms = new boolean[MAX_ROOMS];
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        // Initialize all rooms as available
+        for (int i = 0; i < MAX_ROOMS; i++) {
+            rooms[i] = true; // true indicates the room is available
+        }
+
+        while (true) {
+            System.out.println("\nWelcome to the Hotel Reservation System");
+            System.out.println("1. View Available Rooms");
+            System.out.println("2. Reserve a Room");
+            System.out.println("3. View Reservation Status");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    viewAvailableRooms();
+                    break;
+                case 2:
+                    reserveRoom();
+                    break;
+                case 3:
+                    viewReservationStatus();
+                    break;
+                case 4:
+                    System.out.println("Thank you for using the Hotel Reservation System.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        }
+    }
+
+    private static void viewAvailableRooms() {
+        System.out.println("Available rooms:");
+        for (int i = 0; i < MAX_ROOMS; i++) {
+            if (rooms[i]) {
+                System.out.println("Room " + (i + 1) + " is available.");
+            }
+        }
+    }
+
+    private static void reserveRoom() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the room number you want to reserve (1 to " + MAX_ROOMS + "): ");
+        int roomNumber = scanner.nextInt() - 1;
+
+        if (roomNumber >= 0 && roomNumber < MAX_ROOMS) {
+            if (rooms[roomNumber]) {
+                rooms[roomNumber] = false;
+                System.out.println("Room " + (roomNumber + 1) + " has been reserved.");
+            } else {
+                System.out.println("Sorry, room " + (roomNumber + 1) + " is already reserved.");
+            }
+        } else {
+            System.out.println("Invalid room number. Please try again.");
+        }
+    }
+
+    private static void viewReservationStatus() {
+        System.out.println("Reservation Status:");
+        for (int i = 0; i < MAX_ROOMS; i++) {
+            if (rooms[i]) {
+                System.out.println("Room " + (i + 1) + " is available.");
+            } else {
+                System.out.println("Room " + (i + 1) + " is reserved.");
+            }
+        }
+    }
+}
+
+                  
